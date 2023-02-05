@@ -29,7 +29,7 @@ public abstract class Item {
     /*비즈니스 로직*/
 
     /**
-     * stock 증가
+     * stock 증가 (주문했던 개수 원복)
      */
     public void addStock(int quantity) {
         this.stockQuantity += quantity;
