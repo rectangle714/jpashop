@@ -1,6 +1,8 @@
 package jpabook.jpashop.domain;
 
+import lombok.AccessLevel;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -10,6 +12,7 @@ import java.util.List;
 @Entity
 @Table(name = "orders")
 @Data
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Order {
 
     @Id @GeneratedValue
@@ -20,9 +23,13 @@ public class Order {
     @JoinColumn(name = "member_id")
     private Member member;
 
+    // cascade = CascadeType.ALL 옵션
+    // order를 persist하면 안에 있는 orderItem들도 persist 진행
+    // 해당 orderItems를 여러곳에서 참조하여 사용할 경우 cascade를 사용하면 안됨
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
     private List<OrderItem> orderItems = new ArrayList<>();
 
+    //마찬가지로 order가 persist 될 때 delivery도 persist
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "delivery_id")
     private Delivery delivery;
@@ -67,7 +74,7 @@ public class Order {
     /*
      주문 취소
     */
-    public void cancelOrder(Order order) {
+    public void cancel() {
         if (delivery.getStaus() == DeliveryStatus.COMP) {
             throw new IllegalStateException("이미 배송완료된 상품은 취소가 불가능합니다.");
         }
