@@ -8,7 +8,7 @@ import javax.persistence.*;
 @Data
 public class Delivery {
 
-    @Id @GeneratedValue
+    @Id @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "delivery_id")
     private Long id;
 
@@ -20,5 +20,5 @@ public class Delivery {
     private Address address;
 
     @Enumerated(EnumType.STRING)
-    private DeliveryStatus staus;
+    private DeliveryStatus status;
 }
