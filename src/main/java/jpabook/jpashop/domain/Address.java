@@ -7,6 +7,7 @@ import javax.persistence.Embeddable;
 
 @Embeddable
 @Data
+@NoArgsConstructor
 public class Address {
 
     private String city;
